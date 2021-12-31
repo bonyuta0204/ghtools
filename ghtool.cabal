@@ -26,6 +26,7 @@ source-repository head
 library
   exposed-modules:
       Ghtools
+      Ghtools.Request
   other-modules:
       Paths_ghtool
   hs-source-dirs:
@@ -37,6 +38,7 @@ library
     , http-client
     , http-conduit
     , http-types
+    , optparse-applicative
   default-language: Haskell2010
 
 executable ghtool-exe
@@ -54,6 +56,7 @@ executable ghtool-exe
     , http-client
     , http-conduit
     , http-types
+    , optparse-applicative
   default-language: Haskell2010
 
 test-suite ghtool-test
@@ -72,4 +75,5 @@ test-suite ghtool-test
     , http-client
     , http-conduit
     , http-types
+    , optparse-applicative
   default-language: Haskell2010
