@@ -1,4 +1,5 @@
 {-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 
 module Ghtools.Data
@@ -12,10 +13,17 @@ import Data.Aeson
 
 data PullRequest = PullRequest
   { url :: String,
-    id :: String,
+    id :: Int,
     state :: String,
     title :: String,
     merge_commit_sha :: String
   } deriving (Show, Generic)
 
-instance FromJSON PullRequest
+
+instance FromJSON PullRequest where
+    parseJSON = withObject "PullRequest" $ \v -> PullRequest
+        <$> v .: "url"
+        <*> v .: "id"
+        <*> v .: "state"
+        <*> v .: "title"
+        <*> v .: "merge_commit_sha"

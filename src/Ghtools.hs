@@ -14,6 +14,7 @@ import Ghtools.Data
 import Network.HTTP.Client
 import Network.HTTP.Conduit (tlsManagerSettings)
 
+import Data.ByteString.Lazy.Internal as L
 
 listPr :: String -> IO (Maybe PullRequest)
 listPr pr = do
@@ -22,12 +23,11 @@ listPr pr = do
   response <- httpLbs request manager
   return (parseResponse response)
 
--- parseResponse :: Response a -> Maybe PullRequest
+parseResponse :: Response L.ByteString -> Maybe PullRequest
 parseResponse x  = decode (responseBody x)
 
 response = do
   request <- showPullR "bonyuta0204/dotfiles" "30"
   manager <- newManager tlsManagerSettings
-  response <- httpLbs request manager
-  return response
+  httpLbs request manager
 
