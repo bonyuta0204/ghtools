@@ -16,6 +16,7 @@ import qualified Data.ByteString.Char8 as C
 listPullsForCommitR :: String -> String -> IO Request
 listPullsForCommitR repo commit_hash = generateAutorizedRequest =<< parseRequest ("https://api.github.com/repos/" ++ repo ++ "/commits/" ++ commit_hash ++ "/pulls")
 
+-- @see https://docs.github.com/en/rest/reference/pulls#get-a-pull-request
 showPullR :: String -> String -> IO Request
 showPullR repo pull_number = generateAutorizedRequest =<< parseRequest ("https://api.github.com/repos/" ++ repo ++ "/pulls/" ++ pull_number)
 

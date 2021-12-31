@@ -26,6 +26,7 @@ source-repository head
 library
   exposed-modules:
       Ghtools
+      Ghtools.Data
       Ghtools.Request
   other-modules:
       Paths_ghtool
