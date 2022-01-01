@@ -16,18 +16,16 @@ import Network.HTTP.Conduit (tlsManagerSettings)
 
 import Data.ByteString.Lazy.Internal as L
 
-listPr :: String -> IO (Maybe PullRequest)
-listPr pr = do
-  request <- showPullR "bonyuta0204/dotfiles" pr
-  manager <- newManager tlsManagerSettings
-  response <- httpLbs request manager
-  return (parseResponse response)
+listPr :: String -> IO (Maybe String)
+listPr = mergeCommit
 
 parseResponse :: Response L.ByteString -> Maybe PullRequest
 parseResponse x  = decode (responseBody x)
 
-response = do
-  request <- showPullR "bonyuta0204/dotfiles" "30"
+mergeCommit :: String -> IO (Maybe String)
+mergeCommit pull_number = do
+  request <- showPullR "bonyuta0204/dotfiles" pull_number
   manager <- newManager tlsManagerSettings
-  httpLbs request manager
+  response <- httpLbs request manager
+  return (merge_commit_sha <$> parseResponse response)
 
