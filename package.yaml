@@ -27,6 +27,8 @@ dependencies:
 - bytestring
 - http-types
 - optparse-applicative
+- process
+- regex-posix
 
 library:
   source-dirs: src
