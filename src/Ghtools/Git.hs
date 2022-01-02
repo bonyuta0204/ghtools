@@ -17,7 +17,13 @@ getRemoteUrl :: IO String
 getRemoteUrl = readProcess "git" ["config", "--get", "remote.origin.url"] ""
 
 
+listMergedCommit :: String -> IO String
+-- head . lines で改行を取り除いている
+listMergedCommit commit_hash = readProcess "git" ["rev-list","--merges", commit_hash ++ "^1", commit_hash ++ "^2"] ""
+
 -- parse repo name from repo url
 parseRepoName :: String -> String
 parseRepoName repoUrl = case repoUrl =~ "([[:alnum:]]+/[[:alnum:]]+)\\.git" :: (String, String, String, [String]) of
    (_,_,_,subMatches) -> head subMatches
+
+
