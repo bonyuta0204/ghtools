@@ -17,9 +17,9 @@ getRemoteUrl :: IO String
 getRemoteUrl = readProcess "git" ["config", "--get", "remote.origin.url"] ""
 
 
-getMergeBaseCommit :: String -> IO String
+listMergedCommit :: String -> IO String
 -- head . lines で改行を取り除いている
-getMergeBaseCommit commit_hash = head . lines <$> readProcess "git" ["merge-base", commit_hash ++ "^1", commit_hash ++ "^2"] ""
+listMergedCommit commit_hash = readProcess "git" ["rev-list","--merges", commit_hash ++ "^1", commit_hash ++ "^2"] ""
 
 -- parse repo name from repo url
 parseRepoName :: String -> String
