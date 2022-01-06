@@ -13,6 +13,7 @@ import System.Environment
 
 import qualified Data.ByteString.Char8 as C
 
+-- @see https://docs.github.com/en/rest/reference/commits#list-pull-requests-associated-with-a-commit
 listPullsForCommitR :: String -> String -> IO Request
 listPullsForCommitR repo commit_hash = generateAutorizedRequest =<< parseRequest ("https://api.github.com/repos/" ++ repo ++ "/commits/" ++ commit_hash ++ "/pulls")
 
