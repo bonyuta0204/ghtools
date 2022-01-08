@@ -24,6 +24,7 @@ dependencies:
 - http-client
 - http-conduit
 - aeson
+- exceptions
 - bytestring
 - http-types
 - optparse-applicative

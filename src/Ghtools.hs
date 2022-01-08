@@ -13,7 +13,6 @@ import Ghtools.Data
 import Ghtools.Git
 
 import Network.HTTP.Client
-import Network.HTTP.Conduit (tlsManagerSettings)
 
 import Data.ByteString.Lazy.Internal as L
 import Data.Maybe
@@ -21,30 +20,20 @@ import Data.Maybe
 -- listPr :: String -> IO (Maybe String)
 listPr = mergeCommit
 
-parseResponse :: Response L.ByteString -> Maybe PullRequest
-parseResponse x  = decode (responseBody x)
-
-parseResponses :: Response L.ByteString -> Maybe [PullRequest]
-parseResponses x  = decode (responseBody x)
-
 -- mergeCommit :: String -> IO [String]
 mergeCommit pull_number = do
   repo_name <- getRepoName
-  request <- showPullR repo_name pull_number
-  manager <- newManager tlsManagerSettings
 
-  response <- httpLbs request manager
+  response <- query =<< showPullR repo_name pull_number
 
-  let commit_hash = merge_commit_sha <$> parseResponse response
+  commit_hash <- merge_commit_sha <$> parseShowPull response
 
-  merge_commits <- case commit_hash of
-    (Just x) -> listMergedCommit x
-    Nothing -> return []
+  merge_commits <- listMergedCommit commit_hash
 
   requests <-  mapM (listPullsForCommitR repo_name) merge_commits
-  responses <- sequence (map httpLbs requests <*> pure manager)
+  responses <- mapM query requests
 
-  let pull_requests =  concat $ mapMaybe parseResponses responses
+  pull_requests <- concat <$> mapM parseListPullsForCommit responses
 
   return $ map title pull_requests
 

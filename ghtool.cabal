@@ -37,6 +37,7 @@ library
       aeson
     , base >=4.7 && <5
     , bytestring
+    , exceptions
     , http-client
     , http-conduit
     , http-types
@@ -56,6 +57,7 @@ executable ghtool-exe
       aeson
     , base >=4.7 && <5
     , bytestring
+    , exceptions
     , ghtool
     , http-client
     , http-conduit
@@ -77,6 +79,7 @@ test-suite ghtool-test
       aeson
     , base >=4.7 && <5
     , bytestring
+    , exceptions
     , ghtool
     , http-client
     , http-conduit
