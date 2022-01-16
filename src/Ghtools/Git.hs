@@ -1,5 +1,6 @@
 module Ghtools.Git (
-  getRepoName
+  getRepoName,
+  listMergedCommit
 ) where
 
 import System.Environment
@@ -16,10 +17,9 @@ getRepoName = parseRepoName <$> getRemoteUrl
 getRemoteUrl :: IO String
 getRemoteUrl = readProcess "git" ["config", "--get", "remote.origin.url"] ""
 
-
-listMergedCommit :: String -> IO String
--- head . lines で改行を取り除いている
-listMergedCommit commit_hash = readProcess "git" ["rev-list","--merges", commit_hash ++ "^1", commit_hash ++ "^2"] ""
+-- マージコミットのコミットハッシュから、そのマージコミットに含まれるマージコミットのコミットハッシュの一覧を取得
+listMergedCommit :: String -> IO [String]
+listMergedCommit commit_hash = lines <$> readProcess "git" ["rev-list","--merges", commit_hash ++ "^1", commit_hash ++ "^2"] ""
 
 -- parse repo name from repo url
 parseRepoName :: String -> String

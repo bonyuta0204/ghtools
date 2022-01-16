@@ -31,3 +31,9 @@ listPrOptions =
 cmdParser = subparser (command "list-pr" (info listPrOptions fullDesc))
 
 listR = listPullsForCommitR
+
+
+mapM :: Monad m => (a -> m b) -> [a] -> m [b]
+mapM f as = foldr k (return []) as
+            where
+              k a r = do { x <- f a; xs <- r; return (x:xs) }
